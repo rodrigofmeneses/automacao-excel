@@ -1,0 +1,69 @@
+Sub preenche_frequencia(inicio, count)
+'
+' Preenche a frequencia
+' inicio : Linha que inicia a frequencia
+' count : Respectivo funcionário da planilha "Dados"
+'
+    ' Dados do funcionários
+    Dim nome, matricula, funcao, lotacao, ctps As String
+    
+    ' Valores da planilha "Dados"
+    nome = Sheets("Dados").Cells(count, 1).Value
+    matricula = Sheets("Dados").Cells(count, 2).Value
+    funcao = Sheets("Dados").Cells(count, 3).Value
+    lotacao = Sheets("Dados").Cells(count, 4).Value
+    ctps = Sheets("Dados").Cells(count, 5).Value
+    
+    ' Valores na planilha "Frequências"
+    Sheets("Frequências").Cells(inicio + 4, 3).Value = nome
+    Sheets("Frequências").Cells(inicio + 4, 13).Value = matricula
+    Sheets("Frequências").Cells(inicio + 5, 3).Value = funcao
+    Sheets("Frequências").Cells(inicio + 5, 11).Value = lotacao
+    Sheets("Frequências").Cells(inicio + 6, 11).Value = ctps
+    
+End Sub
+    
+Sub copia_insere_frequencia(inicio, fim)
+'
+' Copia e insere uma frequência
+' inicio : Linha que inicia a frequencia
+' fim : Linha que finaliza a frequencia
+'
+    Range(Rows(inicio), Rows(fim)).Select
+    Selection.Copy
+    Rows(fim + 1).Select
+    Selection.Insert Shift:=xlDown
+End Sub
+
+
+Sub apaga_ultima_frequencia(inicio, fim)
+'
+' Apaga a ultima frequência
+' inicio : Linha que inicia a frequencia
+' fim : Linha que finaliza a frequencia
+'
+    Range(Rows(inicio), Rows(fim)).Select
+    Selection.Delete Shift:=xlUp
+End Sub
+
+Sub preenchimento_automatico()
+    Dim inicio, fim, n As Integer
+    
+    n = InputBox("Digite o número de funcionários a preencher ")
+    
+    inicio = 1
+    fim = 50
+    passo = fim - inicio
+    
+    For count = 2 To n + 1 Step 1
+        Call copia_insere_frequencia(inicio, fim)
+        Call preenche_frequencia(inicio, count)
+        inicio = fim + 1
+        fim = inicio + passo
+    Next count
+    
+    Call apaga_ultima_frequencia(inicio, fim)
+
+    'Debug.Print "Tchau Mundo"
+    
+End Sub
