@@ -25,7 +25,7 @@ End Sub
     
 Sub copia_insere_frequencia(inicio, fim)
 '
-' Copia e insere uma frequência
+' Copia e insere a frequência Macro
 ' inicio : Linha que inicia a frequencia
 ' fim : Linha que finaliza a frequencia
 '
@@ -35,24 +35,19 @@ Sub copia_insere_frequencia(inicio, fim)
     Selection.Insert Shift:=xlDown
 End Sub
 
-
-Sub apaga_ultima_frequencia(inicio, fim)
-'
-' Apaga a ultima frequência
-' inicio : Linha que inicia a frequencia
-' fim : Linha que finaliza a frequencia
-'
-    Range(Rows(inicio), Rows(fim)).Select
-    Selection.Delete Shift:=xlUp
-End Sub
-
 Sub preenchimento_automatico()
     Dim inicio, fim, n As Integer
     
-    n = InputBox("Digite o número de funcionários a preencher ")
+    'n = InputBox("Digite o número de funcionários a preencher ")
+    n = 1
+    While Sheets("Dados").Cells(n, 1) <> ""
+       n = n + 1
+       'Debug.Print "Tchau Mundo"
+       'Debug.Print n
+    Wend
     
     inicio = 1
-    fim = 50
+    fim = 44
     passo = fim - inicio
     
     For count = 2 To n + 1 Step 1
@@ -66,4 +61,14 @@ Sub preenchimento_automatico()
 
     'Debug.Print "Tchau Mundo"
     
+End Sub
+
+Sub apaga_ultima_frequencia(inicio, fim)
+'
+' Apaga ultima frequência Macro
+'
+
+'
+    Range(Rows(inicio), Rows(fim)).Select
+    Selection.Delete Shift:=xlUp
 End Sub
