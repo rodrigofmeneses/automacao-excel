@@ -1,40 +1,3 @@
-Sub preenche_frequencia(inicio, count)
-'
-' Preenche a frequencia
-' inicio : Linha que inicia a frequencia
-' count : Respectivo funcionário da planilha "Dados"
-'
-    ' Dados do funcionários
-    Dim nome, matricula, funcao, lotacao, ctps As String
-    
-    ' Valores da planilha "Dados"
-    nome = Sheets("Dados").Cells(count, 1).Value
-    matricula = Sheets("Dados").Cells(count, 2).Value
-    funcao = Sheets("Dados").Cells(count, 3).Value
-    lotacao = Sheets("Dados").Cells(count, 4).Value
-    ctps = Sheets("Dados").Cells(count, 5).Value
-    
-    ' Valores na planilha "Frequências"
-    Sheets("Frequências").Cells(inicio + 4, 3).Value = nome
-    Sheets("Frequências").Cells(inicio + 4, 13).Value = matricula
-    Sheets("Frequências").Cells(inicio + 5, 3).Value = funcao
-    Sheets("Frequências").Cells(inicio + 5, 11).Value = lotacao
-    Sheets("Frequências").Cells(inicio + 6, 11).Value = ctps
-    
-End Sub
-    
-Sub copia_insere_frequencia(inicio, fim)
-'
-' Copia e insere a frequência Macro
-' inicio : Linha que inicia a frequencia
-' fim : Linha que finaliza a frequencia
-'
-    Range(Rows(inicio), Rows(fim)).Select
-    Selection.Copy
-    Rows(fim + 1).Select
-    Selection.Insert Shift:=xlDown
-End Sub
-
 Sub preenchimento_automatico()
     Dim inicio, fim, n As Integer
     
@@ -42,12 +5,11 @@ Sub preenchimento_automatico()
     n = 1
     While Sheets("Dados").Cells(n, 1) <> ""
        n = n + 1
-       'Debug.Print "Tchau Mundo"
-       'Debug.Print n
     Wend
     
+    n = n - 2
     inicio = 1
-    fim = 44
+    fim = 48
     passo = fim - inicio
     
     For count = 2 To n + 1 Step 1
@@ -63,6 +25,43 @@ Sub preenchimento_automatico()
     
 End Sub
 
+Sub preenche_frequencia(inicio, count)
+'
+' Preenche a frequencia
+' inicio : Linha que inicia a frequencia
+' count : Respectivo funcionário da planilha "Dados"
+'
+    ' Dados do funcionários
+    Dim nome, matricula, funcao, lotacao, ctps As String
+    
+    ' Valores da planilha "Dados"
+    nome = Sheets("Dados").Cells(count, 2).Value
+    matricula = Sheets("Dados").Cells(count, 1).Value
+    funcao = Sheets("Dados").Cells(count, 3).Value
+    lotacao = Sheets("Dados").Cells(count, 7).Value
+    ctps = Sheets("Dados").Cells(count, 6).Value
+    
+    ' Valores na planilha "Frequências"
+    Sheets("Frequências").Cells(inicio + 4, 3).Value = nome
+    Sheets("Frequências").Cells(inicio + 5, 11).Value = matricula
+    Sheets("Frequências").Cells(inicio + 5, 3).Value = funcao
+    Sheets("Frequências").Cells(inicio + 6, 3).Value = lotacao
+    Sheets("Frequências").Cells(inicio + 6, 10).Value = ctps
+    
+End Sub
+    
+Sub copia_insere_frequencia(inicio, fim)
+'
+' Copia e insere a frequência Macro
+' inicio : Linha que inicia a frequencia
+' fim : Linha que finaliza a frequencia
+'
+    Range(Rows(inicio), Rows(fim)).Select
+    Selection.Copy
+    Rows(fim + 1).Select
+    Selection.Insert Shift:=xlDown
+End Sub
+
 Sub apaga_ultima_frequencia(inicio, fim)
 '
 ' Apaga ultima frequência Macro
@@ -72,3 +71,17 @@ Sub apaga_ultima_frequencia(inicio, fim)
     Range(Rows(inicio), Rows(fim)).Select
     Selection.Delete Shift:=xlUp
 End Sub
+
+Sub apagar_excedentes()
+'
+' apagar_excedentes Macro
+'
+
+'
+    Rows("47:100000").Select
+    Selection.Delete Shift:=xlUp
+    'Rows("44:44").Select
+    'Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+    
+End Sub
+
